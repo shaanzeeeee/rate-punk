@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -39,7 +40,7 @@ interface ProfileData {
 
 type SortOption = 'newest' | 'oldest' | 'highest' | 'lowest'
 
-export default function ProfilePage() {
+function ProfileContent() {
     const { data: session, status } = useSession()
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -271,5 +272,24 @@ export default function ProfilePage() {
                 )}
             </section>
         </div>
+    )
+}
+
+function ProfileLoading() {
+    return (
+        <div className={styles.container}>
+            <div className={styles.loading}>
+                <div className={styles.spinner}></div>
+                <p>Loading profile...</p>
+            </div>
+        </div>
+    )
+}
+
+export default function ProfilePage() {
+    return (
+        <Suspense fallback={<ProfileLoading />}>
+            <ProfileContent />
+        </Suspense>
     )
 }
