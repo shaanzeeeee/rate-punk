@@ -1,0 +1,420 @@
+.container {
+    min-height: calc(100vh - 70px);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.title {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.titleIcon {
+    color: var(--neon-magenta);
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+/* Empty State */
+.empty {
+    text-align: center;
+    padding: 4rem;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.browseBtn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 600;
+    color: var(--dark-bg);
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+/* Feed */
+.feed {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Card */
+.card {
+    position: relative;
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-surface-3);
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+    animation: slideIn 0.5s ease-out forwards;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card:hover {
+    border-color: var(--neon-cyan);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 240, 255, 0.15);
+}
+
+.cardGlow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-purple));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .cardGlow {
+    opacity: 1;
+}
+
+/* Game Section */
+.gameSection {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), transparent);
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.gameSection:hover {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), transparent);
+}
+
+.coverWrapper {
+    flex-shrink: 0;
+    width: 80px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gameSection:hover .cover {
+    transform: scale(1.05);
+}
+
+.coverPlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: var(--dark-surface-2);
+}
+
+.gameInfo {
+    flex: 1;
+}
+
+.gameTitle {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.genre {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--neon-purple);
+    background: rgba(139, 0, 255, 0.15);
+    border: 1px solid var(--neon-purple);
+    border-radius: 4px;
+}
+
+/* Rating Section */
+.ratingSection {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ratingCircle {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 3px solid;
+    background: var(--dark-bg);
+}
+
+.ratingCircle[data-rating="high"] {
+    border-color: var(--neon-green);
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
+}
+
+.ratingCircle[data-rating="medium"] {
+    border-color: var(--neon-yellow);
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
+}
+
+.ratingCircle[data-rating="low"] {
+    border-color: var(--neon-red);
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+}
+
+.ratingNumber {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.ratingMax {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.star {
+    font-size: 0.875rem;
+    color: var(--dark-surface-3);
+}
+
+.star.filled {
+    color: var(--neon-yellow);
+    text-shadow: 0 0 5px var(--neon-yellow);
+}
+
+/* Review Content */
+.reviewContent {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.reviewText {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    position: relative;
+}
+
+.reviewText::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--neon-cyan);
+    opacity: 0.3;
+    position: absolute;
+    top: -1rem;
+    left: -0.5rem;
+    font-family: Georgia, serif;
+}
+
+/* Metrics Bar */
+.metricsBar {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--dark-surface-2);
+    border-top: 1px solid var(--dark-surface-3);
+}
+
+.metric {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--dark-surface);
+    border-radius: 100px;
+    border: 1px solid var(--dark-surface-3);
+}
+
+.metricIcon {
+    font-size: 1rem;
+}
+
+.metricLabel {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.metricValue {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.greedLow .metricValue {
+    color: var(--neon-green);
+}
+
+.greedMedium .metricValue {
+    color: var(--neon-yellow);
+}
+
+.greedHigh .metricValue {
+    color: var(--neon-red);
+}
+
+/* Footer */
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--dark-surface-3);
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, var(--neon-magenta), var(--neon-purple));
+    color: white;
+    border-radius: 50%;
+}
+
+.username {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.verifiedBadge {
+    padding: 0.25rem 0.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--neon-green);
+    background: rgba(0, 255, 102, 0.1);
+    border: 1px solid var(--neon-green);
+    border-radius: 4px;
+}
+
+.timestamp {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 2rem 1rem;
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+
+    .gameSection {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .ratingSection {
+        position: relative;
+        top: 0;
+        right: 0;
+        flex-direction: row;
+        padding: 0 1.5rem 1rem;
+    }
+
+    .metricsBar {
+        flex-wrap: wrap;
+    }
+
+    .cardFooter {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
