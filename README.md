@@ -1,76 +1,157 @@
-# RatePunk 🎮
+# 🎮 RatePunk
 
-A cyberpunk-themed video game rating and review platform built with Next.js 16.
+> A cyberpunk-themed video game rating platform with crowdsourced metrics
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
-![Prisma](https://img.shields.io/badge/Prisma-6-2D3748?style=flat-square&logo=prisma)
+![Homepage](./screenshots/homepage.png)
 
-## Features
+## ✨ Features
 
-### Core Platform
-- 🔐 User authentication (registration & login)
-- 🎮 Game database with cover art
-- ⭐ Community ratings and reviews
-- 🎨 Cyberpunk aesthetic (neon colors, glow effects, animations)
+### 💰 Greed Score
+Rate how aggressive a game's monetization is (1-10). Track microtransactions, DLC practices, and pay-to-win elements.
 
-### Crowdsourced Data
-- 💰 **Greed Score** - Rate monetization aggressiveness (1-10)
-- 🖥️ **Performance Reports** - GPU/CPU + FPS benchmarks
-- ⏱️ **Time to Beat** - Community playtime estimates
-- ♿ **Accessibility Wiki** - Vote on accessibility features
+### 🖥️ Performance Reports
+Submit and view GPU/CPU benchmarks from real users. Compare FPS across different hardware configurations.
 
-### Smart Features
-- 🔄 **Patch-aware reviews** - Reviews tagged by game version
-- 🏷️ **Community tags** - Weighted vibe-based search
+### ♿ Accessibility Wiki
+Community-voted accessibility features - colorblind modes, subtitles, remappable controls, and more.
 
-## Tech Stack
+### 🔄 Patch-Aware Reviews
+Reviews tagged by game version. See which feedback applies to the current build vs. outdated patches.
 
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript
-- **Database**: SQLite + Prisma ORM
-- **Auth**: NextAuth.js v5
-- **Styling**: CSS Modules + Custom CSS
+### 📊 Live Review Feed
+Real-time stream of community reviews with eye-catching card design.
 
-## Getting Started
+### 🏆 Leaderboard
+Top reviewers ranked by contribution count with podium display.
+
+### 🔍 RAWG API Integration
+Import games from RAWG's database of 500,000+ titles with one click.
+
+---
+
+## 📸 Screenshots
+
+<details>
+<summary>View All Screenshots</summary>
+
+### Games Library
+![Games](./screenshots/games.png)
+
+### Game Detail Page
+![Game Detail](./screenshots/game-detail.png)
+
+### Live Reviews Feed
+![Reviews](./screenshots/reviews.png)
+
+### Leaderboard
+![Leaderboard](./screenshots/leaderboard.png)
+
+</details>
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| **Framework** | Next.js 16 (App Router) |
+| **Language** | TypeScript |
+| **Database** | PostgreSQL (Neon) |
+| **ORM** | Prisma |
+| **Auth** | NextAuth.js v5 |
+| **Styling** | CSS Modules |
+| **Deployment** | Vercel |
+| **External API** | RAWG.io |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- PostgreSQL database (or use [Neon](https://neon.tech) for free)
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/shaanzeeeee/rate-punk.git
+cd rate-punk
+
 # Install dependencies
 npm install
 
-# Set up database
+# Set up environment variables
+cp env.template .env
+# Edit .env with your database URL, auth secret, and RAWG API key
+
+# Push database schema
 npx prisma db push
 
 # Seed sample data
 npx tsx prisma/seed.ts
 
-# Run development server
+# Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-## Environment Variables
+---
 
-Copy `env.template` to `.env`:
+## ⚙️ Environment Variables
 
-```env
-DATABASE_URL="file:./dev.db"
-AUTH_SECRET="your-secret-key"
-AUTH_URL="http://localhost:3000"
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `AUTH_SECRET` | Random secret for NextAuth.js |
+| `AUTH_URL` | Your app URL (http://localhost:3000 for dev) |
+| `RAWG_API_KEY` | API key from [rawg.io/apidocs](https://rawg.io/apidocs) |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── api/           # API routes
+│   ├── games/         # Game listing & detail pages
+│   ├── reviews/       # Live review feed
+│   ├── leaderboard/   # Top reviewers
+│   ├── profile/       # User profile
+│   ├── login/         # Authentication
+│   └── register/
+├── components/        # Reusable UI components
+├── lib/               # Prisma client & auth config
+└── types/             # TypeScript definitions
 ```
 
-## Screenshots
+---
 
-### Homepage
-Cyberpunk hero section with neon gradients and animated grid.
+## 🎨 Design System
 
-### Games Listing
-Cards with ratings, greed scores, and community tags.
+Custom cyberpunk aesthetic featuring:
+- **Color Palette**: Neon cyan, magenta, purple, yellow
+- **Fonts**: Orbitron, Rajdhani, Share Tech Mono
+- **Effects**: Glassmorphism, neon glows, glitch animations
+- **Dark Mode**: Full dark theme with grid overlay
 
-### Game Details
-Full metrics including performance reports and accessibility voting.
+---
 
-## License
+## 📝 License
 
-MIT
+MIT License - feel free to use this project for learning or as a portfolio piece.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+---
+
+<p align="center">
+  Built with 💜 using Next.js & Prisma
+</p>
