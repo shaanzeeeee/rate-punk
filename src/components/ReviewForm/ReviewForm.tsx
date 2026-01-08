@@ -4,19 +4,28 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './ReviewForm.module.css'
 
+interface ExistingReview {
+    id: string
+    content: string
+    rating: number
+    greedScore: number | null
+    playtimeHours: number | null
+}
+
 interface Props {
     gameId: string
     gameVersion?: string | null
+    existingReview?: ExistingReview | null
 }
 
-export default function ReviewForm({ gameId, gameVersion }: Props) {
+export default function ReviewForm({ gameId, gameVersion, existingReview }: Props) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
-        content: '',
-        rating: 7,
-        greedScore: 5,
-        playtimeHours: '',
+        content: existingReview?.content || '',
+        rating: existingReview?.rating || 7,
+        greedScore: existingReview?.greedScore || 5,
+        playtimeHours: existingReview?.playtimeHours?.toString() || '',
     })
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -131,7 +140,7 @@ export default function ReviewForm({ gameId, gameVersion }: Props) {
                 {loading ? (
                     <span className={styles.loader}></span>
                 ) : (
-                    <>Submit Review</>
+                    <>{existingReview ? 'Update Review' : 'Submit Review'}</>
                 )}
             </button>
         </form>

@@ -50,6 +50,11 @@ export default async function GamePage({ params }: Props) {
         ? reviewsWithPlaytime.reduce((acc, r) => acc + (r.playtimeHours || 0), 0) / reviewsWithPlaytime.length
         : null
 
+    // Find current user's existing review
+    const userReview = session?.user?.id
+        ? game.reviews.find(r => r.user.id === session.user.id)
+        : null
+
     return (
         <div className={styles.container}>
             {/* Hero Section */}
@@ -152,10 +157,14 @@ export default async function GamePage({ params }: Props) {
                     {session && (
                         <section className={styles.section}>
                             <h2 className={styles.sectionTitle}>
-                                <span className={styles.sectionIcon}>✍️</span>
-                                Write a Review
+                                <span className={styles.sectionIcon}>{userReview ? '✏️' : '✍️'}</span>
+                                {userReview ? 'Edit Your Review' : 'Write a Review'}
                             </h2>
-                            <ReviewForm gameId={game.id} gameVersion={game.currentVersion} />
+                            <ReviewForm
+                                gameId={game.id}
+                                gameVersion={game.currentVersion}
+                                existingReview={userReview}
+                            />
                         </section>
                     )}
 

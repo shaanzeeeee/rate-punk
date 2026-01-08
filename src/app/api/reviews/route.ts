@@ -16,10 +16,23 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
         }
 
-        const review = await prisma.review.create({
-            data: {
+        const review = await prisma.review.upsert({
+            where: {
+                userId_gameId: {
+                    userId: session.user.id,
+                    gameId,
+                }
+            },
+            create: {
                 userId: session.user.id,
                 gameId,
+                content,
+                rating,
+                greedScore: greedScore || null,
+                playtimeHours: playtimeHours || null,
+                gameVersion: gameVersion || null,
+            },
+            update: {
                 content,
                 rating,
                 greedScore: greedScore || null,

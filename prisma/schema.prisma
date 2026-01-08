@@ -92,6 +92,7 @@ model Review {
   game          Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  @@unique([userId, gameId])
 }
 
 model PerformanceReport {
