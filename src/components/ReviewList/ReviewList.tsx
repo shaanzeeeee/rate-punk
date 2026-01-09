@@ -1,3 +1,7 @@
+'use client'
+
+import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 import styles from './ReviewList.module.css'
 
 interface Review {
@@ -9,6 +13,7 @@ interface Review {
     gameVersion: string | null
     isOutdated: boolean
     isVerifiedOwner: boolean
+    upvotes: number
     createdAt: Date
     user: {
         id: string
@@ -19,22 +24,112 @@ interface Review {
 interface Props {
     reviews: Review[]
     currentVersion?: string | null
+    filterMinRating?: number
+    filterMaxRating?: number
+    filterMinGreed?: number
+    filterMaxGreed?: number
+    sortBy?: 'newest' | 'oldest' | 'highest' | 'lowest' | 'helpful'
 }
 
-export default function ReviewList({ reviews, currentVersion }: Props) {
-    if (reviews.length === 0) {
+export default function ReviewList({
+    reviews: initialReviews,
+    currentVersion,
+    filterMinRating = 1,
+    filterMaxRating = 10,
+    filterMinGreed = 1,
+    filterMaxGreed = 10,
+    sortBy = 'newest'
+}: Props) {
+    const { data: session } = useSession()
+    const [reviews, setReviews] = useState(initialReviews)
+    const [userVotes, setUserVotes] = useState<Record<string, number>>({})
+    const [voting, setVoting] = useState<string | null>(null)
+
+    // Apply filters and sorting
+    const filteredReviews = reviews
+        .filter(r => r.rating >= filterMinRating && r.rating <= filterMaxRating)
+        .filter(r => {
+            if (r.greedScore === null) return true
+            return r.greedScore >= filterMinGreed && r.greedScore <= filterMaxGreed
+        })
+        .sort((a, b) => {
+            switch (sortBy) {
+                case 'oldest':
+                    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+                case 'highest':
+                    return b.rating - a.rating
+                case 'lowest':
+                    return a.rating - b.rating
+                case 'helpful':
+                    return b.upvotes - a.upvotes
+                default: // newest
+                    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            }
+        })
+
+    const handleVote = async (reviewId: string, value: number) => {
+        if (!session) return
+        if (voting) return
+
+        // Find the review
+        const review = reviews.find(r => r.id === reviewId)
+        if (!review) return
+
+        // Can't vote on your own review
+        if (review.user.id === session.user?.id) return
+
+        setVoting(reviewId)
+
+        try {
+            // If clicking same vote, remove it
+            const currentVote = userVotes[reviewId] || 0
+            const newValue = currentVote === value ? 0 : value
+
+            const res = await fetch(`/api/reviews/${reviewId}/vote`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ value: newValue })
+            })
+
+            if (res.ok) {
+                // Update local state
+                setUserVotes(prev => ({
+                    ...prev,
+                    [reviewId]: newValue
+                }))
+
+                // Update upvotes count
+                setReviews(prev => prev.map(r => {
+                    if (r.id === reviewId) {
+                        const oldVote = currentVote
+                        const diff = newValue - oldVote
+                        return { ...r, upvotes: r.upvotes + diff }
+                    }
+                    return r
+                }))
+            }
+        } catch (error) {
+            console.error('Vote failed:', error)
+        } finally {
+            setVoting(null)
+        }
+    }
+
+    if (filteredReviews.length === 0) {
         return (
             <div className={styles.empty}>
-                <p>No reviews yet. Be the first to share your thoughts!</p>
+                <p>{reviews.length === 0 ? 'No reviews yet. Be the first to share your thoughts!' : 'No reviews match your filters.'}</p>
             </div>
         )
     }
 
     return (
         <div className={styles.list}>
-            {reviews.map((review) => {
+            {filteredReviews.map((review) => {
                 const isOutdated = currentVersion && review.gameVersion &&
                     review.gameVersion !== currentVersion
+                const userVote = userVotes[review.id] || 0
+                const isOwnReview = session?.user?.id === review.user.id
 
                 return (
                     <article
@@ -78,6 +173,29 @@ export default function ReviewList({ reviews, currentVersion }: Props) {
                         <p className={styles.content}>{review.content}</p>
 
                         <div className={styles.footer}>
+                            {/* Vote Buttons */}
+                            <div className={styles.voteSection}>
+                                <button
+                                    className={`${styles.voteBtn} ${userVote === 1 ? styles.upvoted : ''}`}
+                                    onClick={() => handleVote(review.id, 1)}
+                                    disabled={!session || isOwnReview || voting === review.id}
+                                    title={isOwnReview ? "Can't vote on your own review" : "Helpful"}
+                                >
+                                    ▲
+                                </button>
+                                <span className={`${styles.voteCount} ${review.upvotes > 0 ? styles.positive : review.upvotes < 0 ? styles.negative : ''}`}>
+                                    {review.upvotes}
+                                </span>
+                                <button
+                                    className={`${styles.voteBtn} ${userVote === -1 ? styles.downvoted : ''}`}
+                                    onClick={() => handleVote(review.id, -1)}
+                                    disabled={!session || isOwnReview || voting === review.id}
+                                    title={isOwnReview ? "Can't vote on your own review" : "Not helpful"}
+                                >
+                                    ▼
+                                </button>
+                            </div>
+
                             {review.greedScore !== null && (
                                 <span className={`${styles.metric} ${getGreedClass(review.greedScore, styles)}`}>
                                     💰 Greed: {review.greedScore}/10

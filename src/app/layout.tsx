@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
 
 export const metadata: Metadata = {
@@ -18,10 +19,12 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SessionProvider>
-          <Header />
-          <main style={{ paddingTop: '70px', minHeight: '100vh' }}>
-            {children}
-          </main>
+          <ThemeProvider>
+            <Header />
+            <main style={{ paddingTop: '70px', minHeight: '100vh' }}>
+              {children}
+            </main>
+          </ThemeProvider>
         </SessionProvider>
       </body>
     </html>

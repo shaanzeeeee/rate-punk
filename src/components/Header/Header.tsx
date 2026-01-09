@@ -3,11 +3,13 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useState } from 'react'
+import { useTheme } from '@/components/ThemeProvider'
 import styles from './Header.module.css'
 
 export default function Header() {
     const { data: session, status } = useSession()
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const { theme, toggleTheme } = useTheme()
 
     return (
         <header className={styles.header}>
@@ -22,6 +24,10 @@ export default function Header() {
                         <span className={styles.navIcon}>⬡</span>
                         Games
                     </Link>
+                    <Link href="/games/import" className={styles.navLink}>
+                        <span className={styles.navIcon}>🔍</span>
+                        Search
+                    </Link>
                     <Link href="/reviews" className={styles.navLink}>
                         <span className={styles.navIcon}>◈</span>
                         Reviews
@@ -31,6 +37,14 @@ export default function Header() {
                         Leaderboard
                     </Link>
                 </nav>
+
+                <button
+                    className={styles.themeToggle}
+                    onClick={toggleTheme}
+                    aria-label="Toggle theme"
+                >
+                    {theme === 'dark' ? '☀️' : '🌙'}
+                </button>
 
                 <div className={styles.actions}>
                     {status === 'loading' ? (

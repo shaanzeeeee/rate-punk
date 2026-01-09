@@ -17,6 +17,7 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   reviews       Review[]
+  reviewVotes   ReviewVote[]
   gameLists     GameList[]
   userTags      UserTag[]
   badges        Badge[]
@@ -92,7 +93,19 @@ model Review {
   game          Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  votes         ReviewVote[]
   @@unique([userId, gameId])
+}
+
+model ReviewVote {
+  id        String   @id @default(cuid())
+  userId    String
+  reviewId  String
+  value     Int      // 1 = upvote, -1 = downvote
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  @@unique([userId, reviewId])
 }
 
 model PerformanceReport {

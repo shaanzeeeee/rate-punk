@@ -23,17 +23,31 @@ interface Review {
     }
 }
 
+
+interface Badge {
+    id: string
+    type: string
+    meta: string | null
+    awardedAt: string
+}
+
 interface ProfileData {
     user: {
         id: string
         username: string
         email: string | null
         createdAt: string
+        badges: Badge[]
         _count: {
             reviews: number
         }
     }
     reviews: Review[]
+    stats: {
+        totalReviews: number
+        avgRating: number
+        totalUpvotes: number
+    }
     totalPages: number
     currentPage: number
 }
@@ -122,10 +136,30 @@ function ProfileContent() {
                 <div className={styles.userInfo}>
                     <h1 className={styles.username}>{data.user.username}</h1>
                     <p className={styles.email}>{data.user.email}</p>
+
+                    {/* Badges */}
+                    {data.user.badges.length > 0 && (
+                        <div className={styles.badges}>
+                            {data.user.badges.map(badge => (
+                                <span key={badge.id} className={styles.badge} data-type={badge.type}>
+                                    {getBadgeEmoji(badge.type)} {getBadgeLabel(badge.type)}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+
                     <div className={styles.stats}>
                         <div className={styles.stat}>
-                            <span className={styles.statValue}>{data.user._count.reviews}</span>
+                            <span className={styles.statValue}>{data.stats.totalReviews}</span>
                             <span className={styles.statLabel}>Reviews</span>
+                        </div>
+                        <div className={styles.stat}>
+                            <span className={styles.statValue}>{data.stats.avgRating.toFixed(1)}</span>
+                            <span className={styles.statLabel}>Avg Rating</span>
+                        </div>
+                        <div className={styles.stat}>
+                            <span className={styles.statValue}>{data.stats.totalUpvotes}</span>
+                            <span className={styles.statLabel}>Upvotes</span>
                         </div>
                         <div className={styles.stat}>
                             <span className={styles.statValue}>{memberSince}</span>
@@ -284,6 +318,26 @@ function ProfileLoading() {
             </div>
         </div>
     )
+}
+
+function getBadgeEmoji(type: string): string {
+    const badges: Record<string, string> = {
+        'hidden_gem_hunter': '💎',
+        'verified_owner': '✓',
+        'taste_buddy': '🤝',
+        'prolific_reviewer': '📝',
+    }
+    return badges[type] || '🏆'
+}
+
+function getBadgeLabel(type: string): string {
+    const labels: Record<string, string> = {
+        'hidden_gem_hunter': 'Hidden Gem Hunter',
+        'verified_owner': 'Verified Owner',
+        'taste_buddy': 'Taste Buddy',
+        'prolific_reviewer': 'Prolific Reviewer',
+    }
+    return labels[type] || type
 }
 
 export default function ProfilePage() {

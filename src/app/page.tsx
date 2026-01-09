@@ -34,6 +34,9 @@ export default function HomePage() {
               <span>Explore Games</span>
               <span className={styles.ctaArrow}>→</span>
             </Link>
+            <Link href="/games/import" className={styles.ctaSecondary}>
+              🔍 Search for Games
+            </Link>
             <Link href="/register" className={styles.ctaSecondary}>
               Join the Network
             </Link>

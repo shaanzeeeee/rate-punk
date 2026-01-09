@@ -79,7 +79,47 @@
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.9rem;
     color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid var(--neon-cyan);
+    border-radius: 100px;
+    color: var(--neon-cyan);
+}
+
+.badge[data-type="hidden_gem_hunter"] {
+    background: rgba(139, 0, 255, 0.1);
+    border-color: var(--neon-purple);
+    color: var(--neon-purple);
+}
+
+.badge[data-type="prolific_reviewer"] {
+    background: rgba(0, 255, 102, 0.1);
+    border-color: var(--neon-green);
+    color: var(--neon-green);
+}
+
+.badge[data-type="taste_buddy"] {
+    background: rgba(255, 107, 0, 0.1);
+    border-color: var(--neon-orange);
+    color: var(--neon-orange);
 }
 
 .stats {

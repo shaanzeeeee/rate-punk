@@ -1,0 +1,135 @@
+.filterContainer {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--dark-surface-2);
+    border: 1px solid var(--dark-surface-3);
+    border-radius: 12px;
+}
+
+.filterHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.toggleBtn {
+    padding: 0.5rem 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--neon-cyan);
+    background: transparent;
+    border: 1px solid var(--neon-cyan);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggleBtn:hover {
+    background: rgba(0, 240, 255, 0.1);
+}
+
+.sortControl {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sortLabel {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.sortSelect {
+    padding: 0.5rem 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-surface-3);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.sortSelect:hover {
+    border-color: var(--neon-cyan);
+}
+
+.sortSelect:focus {
+    outline: none;
+    border-color: var(--neon-cyan);
+}
+
+.filterPanel {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--dark-surface-3);
+}
+
+.filterRow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filterLabel {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--neon-cyan);
+}
+
+.rangeInputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rangeInput {
+    width: 60px;
+    padding: 0.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.875rem;
+    text-align: center;
+    color: var(--text-primary);
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-surface-3);
+    border-radius: 4px;
+}
+
+.rangeInput:focus {
+    outline: none;
+    border-color: var(--neon-cyan);
+}
+
+.rangeSeparator {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.resetBtn {
+    padding: 0.5rem 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--dark-surface-3);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.resetBtn:hover {
+    border-color: var(--neon-magenta);
+    color: var(--neon-magenta);
+}
